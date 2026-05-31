@@ -202,14 +202,26 @@ class TodoList {
       }
       const rawData = await response.json();
       
+      // Beautiful Indonesian task list to map the Latin placeholder text from API
+      const indonesianTitles = [
+        "Belajar JavaScript Class & OOP 📚",
+        "Menonton video tutorial manipulasi DOM 🎥",
+        "Mempraktikkan Async/Await & Fetch API 🧪",
+        "Beli es kopi susu buat nemenin coding ☕",
+        "Rapikan struktur folder & refactor kode ⚡"
+      ];
+
       let addedCount = 0;
-      rawData.forEach(item => {
+      rawData.forEach((item, index) => {
+        // Use Indonesian title map based on index, fallback to API title
+        const formattedTitle = indonesianTitles[index] || item.title;
+        
         // Avoid duplicate titles
         const isDuplicate = this.tasks.some(
-          t => t.title.toLowerCase() === item.title.trim().toLowerCase()
+          t => t.title.toLowerCase() === formattedTitle.toLowerCase()
         );
         if (!isDuplicate) {
-          const capitalizedTitle = item.title.charAt(0).toUpperCase() + item.title.slice(1);
+          const capitalizedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.slice(1);
           // Instantiate Todo model and push
           const newTodo = new Todo(capitalizedTitle, item.completed);
           this.tasks.push(newTodo);
@@ -412,27 +424,30 @@ document.addEventListener('DOMContentLoaded', () => {
     await fetchApiTodos();
   });
 
-  // 6. Interactive Event Delegation on Tasks List (Checkbox, Delete, Double Click Edit)
+  // 6. Interactive Event Delegation on Tasks List (Checkbox Toggle via Change Event)
+  todoListContainer.addEventListener('change', (e) => {
+    const target = e.target;
+    if (target.tagName === 'INPUT' && target.type === 'checkbox') {
+      const todoItemElement = target.closest('.todo-item');
+      if (!todoItemElement) return;
+      const taskId = todoItemElement.getAttribute('data-id');
+      
+      try {
+        todoApp.toggleTask(taskId);
+        render();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+  });
+
+  // 7. Interactive Event Delegation on Tasks List (Delete, Edit Action)
   todoListContainer.addEventListener('click', (e) => {
     const target = e.target;
     const todoItemElement = target.closest('.todo-item');
     if (!todoItemElement) return;
     
     const taskId = todoItemElement.getAttribute('data-id');
-
-    // Case A: Toggle Checkbox
-    if (target.closest('.todo-checkbox-wrapper')) {
-      // Small delayed rendering to let CSS checkbox animation run
-      setTimeout(() => {
-        try {
-          todoApp.toggleTask(taskId);
-          render();
-        } catch (error) {
-          Toast.show(error.message, 'error');
-        }
-      }, 200);
-      return;
-    }
 
     // Case B: Delete Button
     if (target.closest('.btn-item-action.delete')) {

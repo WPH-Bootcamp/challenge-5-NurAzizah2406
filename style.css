@@ -869,3 +869,133 @@ body {
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   4. COMPREHENSIVE RESPONSIVE DESIGN (MOBILE, TABLET, DESKTOP)
+   ========================================================================== */
+
+/* Tablet Portrait Optimization */
+@media (max-width: 768px) {
+  .app-container {
+    max-width: 540px;
+    padding: 26px;
+    gap: 20px;
+  }
+  
+  .app-title {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile Portrait Optimization */
+@media (max-width: 480px) {
+  body {
+    padding: 12px 0;
+    align-items: flex-start; /* Better scroll space on small screens */
+  }
+
+  .app-container {
+    margin: 12px auto;
+    width: calc(100% - 24px);
+    padding: 18px;
+    gap: 16px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .header-top {
+    margin-bottom: 8px;
+  }
+
+  .app-title {
+    font-size: 1.75rem;
+  }
+
+  .app-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .stats-card {
+    padding: 12px;
+  }
+
+  .todo-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .todo-input {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .controls-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .filter-nav {
+    width: 100%;
+    display: flex;
+  }
+
+  .filter-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+
+  .btn-text {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    background: var(--color-danger-bg);
+    border-radius: var(--radius-sm);
+  }
+
+  .todo-item {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .todo-item-title {
+    font-size: 0.9rem;
+  }
+
+  .btn-item-action {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toast-container {
+    bottom: 12px;
+    right: 12px;
+    width: calc(100% - 24px);
+  }
+}
+
+/* Large Screens/Desktop Optimization */
+@media (min-width: 1024px) {
+  .app-container {
+    max-width: 620px;
+    padding: 36px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .todo-item:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn-icon:hover {
+    transform: translateY(-3px) rotate(10deg);
+  }
+}
